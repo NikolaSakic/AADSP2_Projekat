@@ -12,18 +12,19 @@ DSPint InputGain;
 WAV_HEADER inputWAVhdr,outputWAVhdr;
 
 
-void processing(DSPfract pInbuf[MAX_NUM_CHANNEL][BLOCK_SIZE], DSPfract pOutbuf[MAX_NUM_CHANNEL][BLOCK_SIZE])
+void processing()
 {
 	/* 10^(-4/20) */
 	//double gain = 0.63095735;
-	DSPfract gain = pow(10.0, InputGain/20.0);
+	DSPfract gain = FRACT_NUM(pow(10.0, InputGain/20.0));
+	//gain = gain >> 1;
 
 	DSPfract history1[n_coeff];
 	DSPfract history2[n_coeff];
 
 	int i;
-	for(i=0; i < n_coeff; i++){ history1[i] = 0.0;}
-	for(i=0; i < n_coeff; i++){ history2[i] = 0.0;}
+	for(i=0; i < n_coeff; i++){ history1[i] = FRACT_NUM(0.0);}
+	for(i=0; i < n_coeff; i++){ history2[i] = FRACT_NUM(0.0);}
 	unsigned int p_state1 = 0;
 	unsigned int p_state2 = 0;
 
@@ -32,8 +33,8 @@ void processing(DSPfract pInbuf[MAX_NUM_CHANNEL][BLOCK_SIZE], DSPfract pOutbuf[M
 	{
 		for(int j=0; j<BLOCK_SIZE; j++)
 		{
-			pInbuf[0][j] = pInbuf[0][j] * gain;
-			pInbuf[1][j] = pInbuf[1][j] * gain;
+			sampleBuffer[0][j] = sampleBuffer[0][j] * gain;
+			sampleBuffer[1][j] = sampleBuffer[1][j] * gain;
 			/*
 			pOutbuf[3][j] = fir_circular(pInbuf[0][j], FIRCoef, history1, Ntap, &p_state1);			//Ls
             pOutbuf[0][j] = pInbuf[0][j];															//L
@@ -43,12 +44,13 @@ void processing(DSPfract pInbuf[MAX_NUM_CHANNEL][BLOCK_SIZE], DSPfract pOutbuf[M
             pOutbuf[5][j] = pOutbuf[4][j] + pOutbuf[3][j];											//LFE
 			*/
 			
-			pOutbuf[0][j] = fir_circular(pInbuf[0][j], history1, &p_state1);	
-			pOutbuf[1][j] = pInbuf[0][j];
-			pOutbuf[2][j] = pInbuf[0][j] + pInbuf[1][j];     
-			pOutbuf[3][j] = pInbuf[1][j];
-			pOutbuf[4][j] = fir_circular(pInbuf[1][j], history2, &p_state2);
-			pOutbuf[5][j] = pOutbuf[4][j] + pOutbuf[0][j];
+			outputSampleBuffer[0][j] = fir_circular(sampleBuffer[0][j], history1, &p_state1);
+			outputSampleBuffer[1][j] = sampleBuffer[0][j];
+			outputSampleBuffer[2][j] = sampleBuffer[0][j] + sampleBuffer[1][j];
+			outputSampleBuffer[3][j] = sampleBuffer[1][j];
+			outputSampleBuffer[4][j] = fir_circular(sampleBuffer[1][j], history2, &p_state2);
+			outputSampleBuffer[5][j] = outputSampleBuffer[4][j] + outputSampleBuffer[0][j];
+			
 			
 		}
 	}
@@ -56,8 +58,8 @@ void processing(DSPfract pInbuf[MAX_NUM_CHANNEL][BLOCK_SIZE], DSPfract pOutbuf[M
 	{
 		for(int j=0; j<BLOCK_SIZE; j++)
 		{
-			pInbuf[0][j] = pInbuf[0][j] * gain;
-			pInbuf[1][j] = pInbuf[1][j] * gain;
+			sampleBuffer[0][j] = sampleBuffer[0][j] * gain;
+			sampleBuffer[1][j] = sampleBuffer[1][j] * gain;
 		    /*
 			pOutbuf[3][j] = fir_circular(pInbuf[0][j], FIRCoef, history1, Ntap, &p_state1);         //Ls
             pOutbuf[0][j] = pInbuf[0][j];                                                           //L
@@ -65,10 +67,10 @@ void processing(DSPfract pInbuf[MAX_NUM_CHANNEL][BLOCK_SIZE], DSPfract pOutbuf[M
             pOutbuf[4][j] = fir_circular(pInbuf[1][j], FIRCoef, history2, Ntap, &p_state2);         //Rs
 			*/
 			
-			pOutbuf[0][j] = fir_circular(pInbuf[0][j], history1, &p_state1);
-			pOutbuf[1][j] = pInbuf[0][j];
-			pOutbuf[2][j] = pInbuf[1][j];
-			pOutbuf[3][j] = fir_circular(pInbuf[1][j], history2, &p_state2);
+			outputSampleBuffer[0][j] = fir_circular(sampleBuffer[0][j], history1, &p_state1);
+			outputSampleBuffer[1][j] = sampleBuffer[0][j];
+			outputSampleBuffer[2][j] = sampleBuffer[1][j];
+			outputSampleBuffer[3][j] = fir_circular(sampleBuffer[1][j], history2, &p_state2);
 			
 		}
 	}
@@ -76,15 +78,15 @@ void processing(DSPfract pInbuf[MAX_NUM_CHANNEL][BLOCK_SIZE], DSPfract pOutbuf[M
 	{
 		for(int j=0; j<BLOCK_SIZE; j++)
 		{
-			pInbuf[0][j] = pInbuf[1][j] * gain;
-			pInbuf[1][j] = pInbuf[1][j] * gain;
+			sampleBuffer[0][j] = sampleBuffer[1][j] * gain;
+			sampleBuffer[1][j] = sampleBuffer[1][j] * gain;
 			/*
 			pOutbuf[0][j] = pInbuf[0][j];        //L
             pOutbuf[2][j] = pInbuf[1][j];        //R
 			*/
 			
-			pOutbuf[1][j] = pInbuf[0][j];
-			pOutbuf[2][j] = pInbuf[1][j];
+			outputSampleBuffer[1][j] = sampleBuffer[0][j];
+			outputSampleBuffer[2][j] = sampleBuffer[1][j];
 			
 		}
 
@@ -111,7 +113,7 @@ DSPint main(int argc, char* argv[])
 	{
 		for(j=0; j < BLOCK_SIZE; j++)
 		{
-			sampleBuffer[i][j] = 0.0;
+			sampleBuffer[i][j] = FRACT_NUM(0.0);
 		}
 	}
 
@@ -209,20 +211,21 @@ DSPint main(int argc, char* argv[])
 					sample = 0; //debug
 					fread(&sample, BytesPerSample, 1, wav_in);
 					sample = sample << (32 - inputWAVhdr.fmt.BitsPerSample); // force signextend
-					sampleBuffer[k][j] = sample / SAMPLE_SCALE;				// scale sample to 1.0/-1.0 range		
+					sampleBuffer[k][j] = FRACT_NUM(sample / SAMPLE_SCALE);				// scale sample to 1.0/-1.0 range
+					sampleBuffer[k][j] = FRACT_NUM(sampleBuffer[k][j] >> 4);
 				}
 			}
 
 			//processing();
 
-			processing(sampleBuffer, outputSampleBuffer);
+			processing();
 
 			for(int j=0; j<BLOCK_SIZE; j++)
 			{
 				for(int k=0; k<outputWAVhdr.fmt.NumChannels; k++)
 				{	
 					//sample = outputSampleBuffer[k][j] * SAMPLE_SCALE ;	// crude, non-rounding 			
-					sample = outputSampleBuffer[k][j].toLong() ;
+					sample = FRACT_NUM(outputSampleBuffer[k][j].toLong() << 4);
 					sample = sample >> (32 - inputWAVhdr.fmt.BitsPerSample);
 					fwrite(&sample, outputWAVhdr.fmt.BitsPerSample/8, 1, wav_out);		
 				}
