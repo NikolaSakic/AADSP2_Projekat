@@ -13,12 +13,14 @@ cd ..
 cd Debug
 "Model0.exe" "..//..//TestStreams//WhiteNoise.wav" "..//OutStreams//out_WhiteNoise_0.wav" "On" "-4" "3_2_1" 
 "Model1.exe" "..//..//TestStreams//WhiteNoise.wav" "..//OutStreams//out_WhiteNoise_1.wav" "On" "-4" "3_2_1"
+"Model2.exe" "..//..//TestStreams//WhiteNoise.wav" "..//OutStreams//out_WhiteNoise_2.wav" "On" "-4" "3_2_1"
 
 
 cd ..
 
 : Generate new logs
 "..//tools//PCMCompare.exe" OutStreams//out_WhiteNoise_0.wav OutStreams//out_WhiteNoise_1.wav 2> OutCmp//whiteNoise_Model0_vs_Model1.txt
+"..//tools//PCMCompare.exe" OutStreams//out_WhiteNoise_1.wav OutStreams//out_WhiteNoise_2.wav 2> OutCmp//whiteNoise_Model1_vs_Model2.txt
 
 
 
