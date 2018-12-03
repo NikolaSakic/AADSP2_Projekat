@@ -1,0 +1,1 @@
+1. Izbaciti zakomentarisane kodove iz svih modela

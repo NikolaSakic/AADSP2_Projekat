@@ -1,0 +1,11 @@
+1. model0 -> model1
+
+	-izbacena dva parametra iz fir_circular
+	-optimizovani if uslovi unutar te funkcije
+	-pristup elementima niza preko pokazivaca umesto preko indeksiranja, isto samo u fir_circular
+
+2. model1 -> model2
+	-izbacena nepotrebna linija iz for petlje
+	-inicijalizacija samplebUFFER-a rucno umesto preko memset-a
+	-podeseni tipovi podataka u DSP tip  
+	-uklonjeni parametri iz funkcije processing
