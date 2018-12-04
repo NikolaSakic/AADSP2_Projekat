@@ -121,6 +121,11 @@ double fir_circular(double input, double *history, unsigned int *p_state)
 
     *p_state = state;               // return new state to caller 
 
+	if(ret_val > 0.99999999)
+		ret_val = 0.99999999;
+	if(ret_val < -0.99999999)
+		ret_val = -0.99999999;
+
     return ret_val;
 	
 	

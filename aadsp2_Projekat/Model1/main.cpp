@@ -44,11 +44,21 @@ void processing(double pInbuf[MAX_NUM_CHANNEL][BLOCK_SIZE], double pOutbuf[MAX_N
 			
 			pOutbuf[0][j] = fir_circular(pInbuf[0][j], history1, &p_state1);	
 			pOutbuf[1][j] = pInbuf[0][j];
-			pOutbuf[2][j] = pInbuf[0][j] + pInbuf[1][j];     
+			pOutbuf[2][j] = pInbuf[0][j] + pInbuf[1][j];   
+			if(pOutbuf[2][j] > 0.99999999)
+				pOutbuf[2][j] = 0.99999999;
+			if(pOutbuf[2][j] < -0.99999999)
+				pOutbuf[2][j] = -0.99999999;
+
 			pOutbuf[3][j] = pInbuf[1][j];
 			pOutbuf[4][j] = fir_circular(pInbuf[1][j], history2, &p_state2);
 			pOutbuf[5][j] = pOutbuf[4][j] + pOutbuf[0][j];
-			
+			if(pOutbuf[5][j] > 0.99999999)
+				pOutbuf[5][j] = 0.99999999;
+			if(pOutbuf[5][j] < -0.99999999)
+				pOutbuf[5][j] = -0.99999999;
+
+
 		}
 	}
 	if(enable == ON && outputMode == MOD2_2_0)
