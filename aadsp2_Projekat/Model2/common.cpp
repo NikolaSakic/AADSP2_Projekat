@@ -76,7 +76,7 @@ DSPfract fir_circular(DSPfract input, DSPfract *history, unsigned int *p_state)
 	
 	int i;
     unsigned int state;
-    DSPaccum ret_val;
+    DSPfract ret_val;
 
 	//*******************
 
@@ -122,13 +122,14 @@ DSPfract fir_circular(DSPfract input, DSPfract *history, unsigned int *p_state)
 
     *p_state = state;               // return new state to caller 
 	
-	double x = ret_val.toDouble();
+	//ret_val = ret_val << 1;
 
-	if(ret_val.toLongLong() > 0.99999999)
-		ret_val = ACCUM_NUM(0.99999999);
-	if(ret_val.toLongLong() < -0.99999999)
-		ret_val = ACCUM_NUM(-0.99999999);
+	if(ret_val > FRACT_NUM(0.99999999))
+		ret_val = FRACT_NUM(0.99999999);
+	if(ret_val < FRACT_NUM(-0.99999999))
+		ret_val = FRACT_NUM(-0.99999999);
 	
+
     return ret_val;
 	
 	

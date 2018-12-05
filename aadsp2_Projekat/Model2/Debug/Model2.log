@@ -1,19 +1,15 @@
-﻿Build started 4.12.2018 18:52:27.
+﻿Build started 5.12.2018 10:14:18.
      1>Project "D:\RA230-2015\aadsp2\glavni_workspace\aadsp2_Projekat\Model2\Model2.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Creating "Debug\Model2.unsuccessfulbuild" because "AlwaysCreate" was specified.
+         Touching "Debug\Model2.unsuccessfulbuild".
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt common.cpp
-         common.cpp
-     1>d:\ra230-2015\aadsp2\glavni_workspace\aadsp2_projekat\model2\common.cpp(50): warning C4101: 'i' : unreferenced local variable
-     1>d:\ra230-2015\aadsp2\glavni_workspace\aadsp2_projekat\model2\common.cpp(77): warning C4101: 'i' : unreferenced local variable
+         All outputs are up-to-date.
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\RA230-2015\aadsp2\glavni_workspace\aadsp2_Projekat\Debug\Model2.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Model2.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\RA230-2015\aadsp2\glavni_workspace\aadsp2_Projekat\Debug\Model2.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\RA230-2015\aadsp2\glavni_workspace\aadsp2_Projekat\Debug\Model2.lib" /MACHINE:X86 Debug\common.obj
          Debug\fixed_point_math.obj
          Debug\main.obj
          Debug\stdfix_emu.obj
          Debug\WAVheader.obj
-         LINK : D:\RA230-2015\aadsp2\glavni_workspace\aadsp2_Projekat\Debug\Model2.exe not found or not built by the last incremental link; performing full link
          Model2.vcxproj -> D:\RA230-2015\aadsp2\glavni_workspace\aadsp2_Projekat\Debug\Model2.exe
        Manifest:
          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\RA230-2015\aadsp2\glavni_workspace\aadsp2_Projekat\Debug\Model2.exe;#1" /manifest Debug\Model2.exe.intermediate.manifest
@@ -24,4 +20,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.90
+Time Elapsed 00:00:00.29
