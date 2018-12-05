@@ -5,93 +5,14 @@
 DSPfract sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE];
 DSPfract outputSampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE];
 
+DSPfract history_global[2][Ntap];
+unsigned int p_state_global[2]; 
+
 ENABLE_STATE enable;
 OUTPUT_MODE outputMode;
 DSPint InputGain;
 
 
-
-
-void processing()
-{
-	/* 10^(-4/20) */
-	//DSPfract gain = 0.63095735;
-	DSPfract gain = FRACT_NUM(pow(10.0, InputGain/20.0));
-	//gain = gain >> 1;
-
-	DSPfract history1[n_coeff];
-	DSPfract history2[n_coeff];
-
-	int i;
-	for(i=0; i < n_coeff; i++){ history1[i] = FRACT_NUM(0.0);}
-	for(i=0; i < n_coeff; i++){ history2[i] = FRACT_NUM(0.0);}
-	unsigned int p_state1 = 0;
-	unsigned int p_state2 = 0;
-	DSPaccum tmp;
-	
-	if(enable == ON && outputMode == MOD3_2_1)
-	{
-		for(int j=0; j<BLOCK_SIZE; j++)
-		{
-			sampleBuffer[0][j] = sampleBuffer[0][j] * gain;
-			sampleBuffer[1][j] = sampleBuffer[1][j] * gain;
-			/*
-			pOutbuf[3][j] = fir_circular(pInbuf[0][j], FIRCoef, history1, Ntap, &p_state1);			//Ls
-            pOutbuf[0][j] = pInbuf[0][j];															//L
-            pOutbuf[1][j] = pInbuf[0][j] + pInbuf[1][j];											//C
-            pOutbuf[2][j] = pInbuf[1][j];															//R
-            pOutbuf[4][j] = fir_circular(pInbuf[1][j], FIRCoef, history2, Ntap, &p_state2);			//Rs
-            pOutbuf[5][j] = pOutbuf[4][j] + pOutbuf[3][j];											//LFE
-			*/
-			
-			outputSampleBuffer[0][j] = fir_circular(sampleBuffer[0][j], history1, &p_state1);			
-			outputSampleBuffer[1][j] = sampleBuffer[0][j];
-			outputSampleBuffer[2][j] = sampleBuffer[0][j] + sampleBuffer[1][j];
-			outputSampleBuffer[3][j] = sampleBuffer[1][j];
-			outputSampleBuffer[4][j] = fir_circular(sampleBuffer[1][j], history2, &p_state2);
-			outputSampleBuffer[5][j] = outputSampleBuffer[4][j] + outputSampleBuffer[0][j];
-
-		}
-	}
-	if(enable == ON && outputMode == MOD2_2_0)
-	{
-		for(int j=0; j<BLOCK_SIZE; j++)
-		{
-			sampleBuffer[0][j] = sampleBuffer[0][j] * gain;
-			sampleBuffer[1][j] = sampleBuffer[1][j] * gain;
-		    /*
-			pOutbuf[3][j] = fir_circular(pInbuf[0][j], FIRCoef, history1, Ntap, &p_state1);         //Ls
-            pOutbuf[0][j] = pInbuf[0][j];                                                           //L
-            pOutbuf[2][j] = pInbuf[1][j];                                                           //R
-            pOutbuf[4][j] = fir_circular(pInbuf[1][j], FIRCoef, history2, Ntap, &p_state2);         //Rs
-			*/
-			
-			outputSampleBuffer[0][j] = fir_circular(sampleBuffer[0][j], history1, &p_state1);
-			outputSampleBuffer[1][j] = sampleBuffer[0][j];
-			outputSampleBuffer[2][j] = sampleBuffer[1][j];
-			outputSampleBuffer[3][j] = fir_circular(sampleBuffer[1][j], history2, &p_state2);
-			
-		}
-	}
-	if(enable == OFF || outputMode == MOD2_0_0)
-	{
-		for(int j=0; j<BLOCK_SIZE; j++)
-		{
-			sampleBuffer[0][j] = sampleBuffer[1][j] * gain;
-			sampleBuffer[1][j] = sampleBuffer[1][j] * gain;
-			/*
-			pOutbuf[0][j] = pInbuf[0][j];        //L
-            pOutbuf[2][j] = pInbuf[1][j];        //R
-			*/
-			
-			outputSampleBuffer[1][j] = sampleBuffer[0][j];
-			outputSampleBuffer[2][j] = sampleBuffer[1][j];
-			
-		}
-
-	}
-	
-}
 
 DSPint main(int argc, char* argv[])
 {
@@ -103,6 +24,11 @@ DSPint main(int argc, char* argv[])
 	
 	DSPint i, j;
 	
+	for(int i=0; i < Ntap; i++){ history1[0][i] = FRACT_NUM(0.0);}
+	for(int i=0; i < Ntap; i++){ history2[1][i] = FRACT_NUM(0.0);}
+	p_state[0] = 0;
+	p_state[1] = 0;
+
 	// Init channel buffers
 	/*
 	for(int i=0; i<MAX_NUM_CHANNEL; i++)
@@ -217,7 +143,7 @@ DSPint main(int argc, char* argv[])
 
 			//processing();
 
-			processing();
+			processing(sampleBuffer, outputSampleBuffer);
 
 			for(DSPint j=0; j<BLOCK_SIZE; j++)
 			{

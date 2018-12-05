@@ -7,6 +7,9 @@
 __memY DSPfract sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE];
 __memX DSPfract outputSampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE];
 
+DSPfract history_global[2][Ntap];
+unsigned int p_state_global[2];
+
 //ENABLE_STATE enable;
 //OUTPUT_MODE outputMode;
 DSPint InputGain;
@@ -26,6 +29,11 @@ DSPint main(int argc, char* argv[])
 		int bitsPerSample;
 	    int sampleRate;
 	    int iNumSamples;
+
+		for(int i=0; i < Ntap; i++){ history1[0][i] = FRACT_NUM(0.0);}
+		for(int i=0; i < Ntap; i++){ history2[1][i] = FRACT_NUM(0.0);}
+		p_state[0] = 0;
+		p_state[1] = 0;
 
 		// Open input wav file
 		//-------------------------------------------------

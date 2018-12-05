@@ -1,5 +1,8 @@
 #include "common.h"
 
+extern double history_global[2][Ntap];
+extern unsigned int p_state_global[2]; 
+
 double coeffs[n_coeff] = { 
         -0.00930491020808503140,
         -0.00944040203390978520,
@@ -72,12 +75,15 @@ int stringToInt(char *s)
 }
 
 
-double fir_circular(double input, double *history, unsigned int *p_state)
+double fir_circular(double input, int ind)
 {
 	
 	int i;
     unsigned int state;
     double ret_val;
+
+    double* history = history_global[ind];
+	unsigned int* p_state = &p_state_global[ind];
 
 	//*******************
 
@@ -130,6 +136,87 @@ double fir_circular(double input, double *history, unsigned int *p_state)
     return ret_val;
 	
 	
+}
 
 
+
+void processing(double pInbuf[MAX_NUM_CHANNEL][BLOCK_SIZE], double pOutbuf[MAX_NUM_CHANNEL][BLOCK_SIZE])
+{
+	/* 10^(-4/20) */
+	//double gain = 0.63095735;
+	double gain = pow(10.0, InputGain/20.0);
+
+
+	if(enable == ON && outputMode == MOD3_2_1)
+	{
+		for(int j=0; j<BLOCK_SIZE; j++)
+		{
+			pInbuf[0][j] *= gain;
+			pInbuf[1][j] *= gain;
+			/*
+			pOutbuf[3][j] = fir_circular(pInbuf[0][j], FIRCoef, history1, Ntap, &p_state1);			//Ls
+            pOutbuf[0][j] = pInbuf[0][j];															//L
+            pOutbuf[1][j] = pInbuf[0][j] + pInbuf[1][j];											//C
+            pOutbuf[2][j] = pInbuf[1][j];															//R
+            pOutbuf[4][j] = fir_circular(pInbuf[1][j], FIRCoef, history2, Ntap, &p_state2);			//Rs
+            pOutbuf[5][j] = pOutbuf[4][j] + pOutbuf[3][j];											//LFE
+			*/
+			
+			pOutbuf[0][j] = fir_circular(pInbuf[0][j], 0);	
+			pOutbuf[1][j] = pInbuf[0][j];
+			pOutbuf[2][j] = pInbuf[0][j] + pInbuf[1][j];   
+			if(pOutbuf[2][j] > 0.99999999)
+				pOutbuf[2][j] = 0.99999999;
+			if(pOutbuf[2][j] < -0.99999999)
+				pOutbuf[2][j] = -0.99999999;
+
+			pOutbuf[3][j] = pInbuf[1][j];
+			pOutbuf[4][j] = fir_circular(pInbuf[1][j], 1);
+			pOutbuf[5][j] = pOutbuf[4][j] + pOutbuf[0][j];
+			if(pOutbuf[5][j] > 0.99999999)
+				pOutbuf[5][j] = 0.99999999;
+			if(pOutbuf[5][j] < -0.99999999)
+				pOutbuf[5][j] = -0.99999999;
+
+
+		}
+	}
+	if(enable == ON && outputMode == MOD2_2_0)
+	{
+		for(int j=0; j<BLOCK_SIZE; j++)
+		{
+			pInbuf[0][j] *= gain;
+			pInbuf[1][j] *= gain;
+		    /*
+			pOutbuf[3][j] = fir_circular(pInbuf[0][j], FIRCoef, history1, Ntap, &p_state1);         //Ls
+            pOutbuf[0][j] = pInbuf[0][j];                                                           //L
+            pOutbuf[2][j] = pInbuf[1][j];                                                           //R
+            pOutbuf[4][j] = fir_circular(pInbuf[1][j], FIRCoef, history2, Ntap, &p_state2);         //Rs
+			*/
+			
+			pOutbuf[0][j] = fir_circular(pInbuf[0][j], 0);
+			pOutbuf[1][j] = pInbuf[0][j];
+			pOutbuf[2][j] = pInbuf[1][j];
+			pOutbuf[3][j] = fir_circular(pInbuf[1][j], 1);
+			
+		}
+	}
+	if(enable == OFF || outputMode == MOD2_0_0)
+	{
+		for(int j=0; j<BLOCK_SIZE; j++)
+		{
+			pInbuf[0][j] *= gain;
+			pInbuf[1][j] *= gain;
+			/*
+			pOutbuf[0][j] = pInbuf[0][j];        //L
+            pOutbuf[2][j] = pInbuf[1][j];        //R
+			*/
+			
+			pOutbuf[1][j] = pInbuf[0][j];
+			pOutbuf[2][j] = pInbuf[1][j];
+			
+		}
+
+	}
+	
 }

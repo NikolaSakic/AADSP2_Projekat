@@ -10,9 +10,12 @@
 double sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE];
 double outputSampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE];
 
-#define Ntap 32
+double history_global[2][Ntap];
+unsigned int p_state_global[2]; 
 
-double FIRCoef[Ntap] = { 
+#define n_coeff 32
+
+double coeffs[Ntap] = { 
         -0.00930491020808503140,
         -0.00944040203390978520,
         -0.00957002117828420830,
@@ -89,11 +92,14 @@ int stringToInt(char *s)
 }
 
 
-double fir_circular(double input, double *coeffs, double *history, unsigned int n_coeff, unsigned int *p_state)
+double fir_circular(double input, int ind)
 {
 	int i;
     unsigned int state;
     double ret_val;
+
+	double* history = history_global[ind];
+	unsigned int* p_state = &p_state_global[ind];
 
     state = *p_state;               /* copy the filter's state to a local */
 
@@ -131,15 +137,8 @@ void processing(double pInbuf[MAX_NUM_CHANNEL][BLOCK_SIZE], double pOutbuf[MAX_N
 	/* 10^(-4/20) */
 	//double gain = 0.63095735;
 	double gain = pow(10.0, InputGain/20.0);
-
-	double history1[Ntap];
-	double history2[Ntap];
-	for(int i=0; i < Ntap; i++){ history1[i] = 0;}
-	for(int i=0; i < Ntap; i++){ history2[i] = 0;}
-	unsigned int p_state1 = 0;
-	unsigned int p_state2 = 0;
-
 	
+
 	if(enable == ON && outputMode == MOD3_2_1)
 	{
 		for(int j=0; j<BLOCK_SIZE; j++)
@@ -155,7 +154,7 @@ void processing(double pInbuf[MAX_NUM_CHANNEL][BLOCK_SIZE], double pOutbuf[MAX_N
             pOutbuf[5][j] = pOutbuf[4][j] + pOutbuf[3][j];											//LFE
 			*/
 			
-			pOutbuf[0][j] = fir_circular(pInbuf[0][j], FIRCoef, history1, Ntap, &p_state1);	
+			pOutbuf[0][j] = fir_circular(pInbuf[0][j], 0);	
 			pOutbuf[1][j] = pInbuf[0][j];
 			pOutbuf[2][j] = pInbuf[0][j] + pInbuf[1][j];
 			if(pOutbuf[2][j] > 0.99999999)
@@ -164,7 +163,7 @@ void processing(double pInbuf[MAX_NUM_CHANNEL][BLOCK_SIZE], double pOutbuf[MAX_N
 				pOutbuf[2][j] = -0.99999999;
 
 			pOutbuf[3][j] = pInbuf[1][j];
-			pOutbuf[4][j] = fir_circular(pInbuf[1][j], FIRCoef, history2, Ntap, &p_state2);
+			pOutbuf[4][j] = fir_circular(pInbuf[1][j], 1);
 			pOutbuf[5][j] = pOutbuf[4][j] + pOutbuf[0][j];
 
 			if(pOutbuf[5][j] > 0.99999999)
@@ -188,10 +187,10 @@ void processing(double pInbuf[MAX_NUM_CHANNEL][BLOCK_SIZE], double pOutbuf[MAX_N
             pOutbuf[4][j] = fir_circular(pInbuf[1][j], FIRCoef, history2, Ntap, &p_state2);         //Rs
 			*/
 			
-			pOutbuf[0][j] = fir_circular(pInbuf[0][j], FIRCoef, history1, Ntap, &p_state1);
+			pOutbuf[0][j] = fir_circular(pInbuf[0][j], 0);
 			pOutbuf[1][j] = pInbuf[0][j];
 			pOutbuf[2][j] = pInbuf[1][j];
-			pOutbuf[3][j] = fir_circular(pInbuf[1][j], FIRCoef, history2, Ntap, &p_state2);
+			pOutbuf[3][j] = fir_circular(pInbuf[1][j], 1);
 			
 		}
 	}
@@ -223,6 +222,10 @@ int main(int argc, char* argv[])
 	char WavOutputName[256];
 	//WAV_HEADER inputWAVhdr,outputWAVhdr;	
 	
+	for(int i=0; i < Ntap; i++){ history1[0][i] = 0;}
+	for(int i=0; i < Ntap; i++){ history2[1][i] = 0;}
+	p_state[0] = 0;
+	p_state[1] = 0;
 
 	// Init channel buffers
 	for(int i=0; i<MAX_NUM_CHANNEL; i++)

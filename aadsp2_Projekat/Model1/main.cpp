@@ -1,105 +1,17 @@
 #include "common.h"
 
 
-
-
 double sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE];
 double outputSampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE];
+
+double history_global[2][Ntap];
+unsigned int p_state_global[2]; 
 
 ENABLE_STATE enable;
 OUTPUT_MODE outputMode;
 int InputGain;
 
-WAV_HEADER inputWAVhdr,outputWAVhdr;
 
-
-void processing(double pInbuf[MAX_NUM_CHANNEL][BLOCK_SIZE], double pOutbuf[MAX_NUM_CHANNEL][BLOCK_SIZE])
-{
-	/* 10^(-4/20) */
-	//double gain = 0.63095735;
-	double gain = pow(10.0, InputGain/20.0);
-
-	double history1[n_coeff];
-	double history2[n_coeff];
-	for(int i=0; i < n_coeff; i++){ history1[i] = 0;}
-	for(int i=0; i < n_coeff; i++){ history2[i] = 0;}
-	unsigned int p_state1 = 0;
-	unsigned int p_state2 = 0;
-
-	
-	if(enable == ON && outputMode == MOD3_2_1)
-	{
-		for(int j=0; j<BLOCK_SIZE; j++)
-		{
-			pInbuf[0][j] *= gain;
-			pInbuf[1][j] *= gain;
-			/*
-			pOutbuf[3][j] = fir_circular(pInbuf[0][j], FIRCoef, history1, Ntap, &p_state1);			//Ls
-            pOutbuf[0][j] = pInbuf[0][j];															//L
-            pOutbuf[1][j] = pInbuf[0][j] + pInbuf[1][j];											//C
-            pOutbuf[2][j] = pInbuf[1][j];															//R
-            pOutbuf[4][j] = fir_circular(pInbuf[1][j], FIRCoef, history2, Ntap, &p_state2);			//Rs
-            pOutbuf[5][j] = pOutbuf[4][j] + pOutbuf[3][j];											//LFE
-			*/
-			
-			pOutbuf[0][j] = fir_circular(pInbuf[0][j], history1, &p_state1);	
-			pOutbuf[1][j] = pInbuf[0][j];
-			pOutbuf[2][j] = pInbuf[0][j] + pInbuf[1][j];   
-			if(pOutbuf[2][j] > 0.99999999)
-				pOutbuf[2][j] = 0.99999999;
-			if(pOutbuf[2][j] < -0.99999999)
-				pOutbuf[2][j] = -0.99999999;
-
-			pOutbuf[3][j] = pInbuf[1][j];
-			pOutbuf[4][j] = fir_circular(pInbuf[1][j], history2, &p_state2);
-			pOutbuf[5][j] = pOutbuf[4][j] + pOutbuf[0][j];
-			if(pOutbuf[5][j] > 0.99999999)
-				pOutbuf[5][j] = 0.99999999;
-			if(pOutbuf[5][j] < -0.99999999)
-				pOutbuf[5][j] = -0.99999999;
-
-
-		}
-	}
-	if(enable == ON && outputMode == MOD2_2_0)
-	{
-		for(int j=0; j<BLOCK_SIZE; j++)
-		{
-			pInbuf[0][j] *= gain;
-			pInbuf[1][j] *= gain;
-		    /*
-			pOutbuf[3][j] = fir_circular(pInbuf[0][j], FIRCoef, history1, Ntap, &p_state1);         //Ls
-            pOutbuf[0][j] = pInbuf[0][j];                                                           //L
-            pOutbuf[2][j] = pInbuf[1][j];                                                           //R
-            pOutbuf[4][j] = fir_circular(pInbuf[1][j], FIRCoef, history2, Ntap, &p_state2);         //Rs
-			*/
-			
-			pOutbuf[0][j] = fir_circular(pInbuf[0][j], history1, &p_state1);
-			pOutbuf[1][j] = pInbuf[0][j];
-			pOutbuf[2][j] = pInbuf[1][j];
-			pOutbuf[3][j] = fir_circular(pInbuf[1][j], history2, &p_state2);
-			
-		}
-	}
-	if(enable == OFF || outputMode == MOD2_0_0)
-	{
-		for(int j=0; j<BLOCK_SIZE; j++)
-		{
-			pInbuf[0][j] *= gain;
-			pInbuf[1][j] *= gain;
-			/*
-			pOutbuf[0][j] = pInbuf[0][j];        //L
-            pOutbuf[2][j] = pInbuf[1][j];        //R
-			*/
-			
-			pOutbuf[1][j] = pInbuf[0][j];
-			pOutbuf[2][j] = pInbuf[1][j];
-			
-		}
-
-	}
-	
-}
 
 int main(int argc, char* argv[])
 {
@@ -107,8 +19,12 @@ int main(int argc, char* argv[])
 	FILE *wav_out=NULL;
 	char WavInputName[256];
 	char WavOutputName[256];
-	//WAV_HEADER inputWAVhdr,outputWAVhdr;	
+	WAV_HEADER inputWAVhdr,outputWAVhdr;	
 	
+	for(int i=0; i < Ntap; i++){ history1[0][i] = 0;}
+	for(int i=0; i < Ntap; i++){ history2[1][i] = 0;}
+	p_state[0] = 0;
+	p_state[1] = 0;
 
 	// Init channel buffers
 	for(int i=0; i<MAX_NUM_CHANNEL; i++)

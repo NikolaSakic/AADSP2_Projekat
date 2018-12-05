@@ -16,7 +16,8 @@ enum OUTPUT_MODE {MOD2_0_0, MOD2_2_0, MOD3_2_1};
 
 
 int stringToInt(char *s);
-double fir_circular(double input, double *history, unsigned int *p_state);
+double fir_circular(double input, int ind);
+void processing(double sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE], double outputSampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE]);
 
 
 #endif
