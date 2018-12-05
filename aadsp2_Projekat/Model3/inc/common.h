@@ -22,7 +22,7 @@ typedef long_accum DSPaccum;			/* DSP fixed-point fractional */
 #define BLOCK_SIZE 16
 #define MAX_NUM_CHANNEL 8
 
-#define n_coeff 32
+#define n_coeff 128
 
 enum ENABLE_STATE {ON, OFF};
 enum OUTPUT_MODE {MOD2_0_0, MOD2_2_0, MOD3_2_1};
