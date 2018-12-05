@@ -9,7 +9,7 @@ ENABLE_STATE enable;
 OUTPUT_MODE outputMode;
 DSPint InputGain;
 
-WAV_HEADER inputWAVhdr,outputWAVhdr;
+
 
 
 void processing()
@@ -44,43 +44,12 @@ void processing()
             pOutbuf[5][j] = pOutbuf[4][j] + pOutbuf[3][j];											//LFE
 			*/
 			
-			outputSampleBuffer[0][j] = fir_circular(sampleBuffer[0][j], history1, &p_state1);
-			//tmp = fir_circular(sampleBuffer[0][j], history1, &p_state1);
-			//outputSampleBuffer[0][j] = FRACT_NUM( tmp << 1 );
-			
+			outputSampleBuffer[0][j] = fir_circular(sampleBuffer[0][j], history1, &p_state1);			
 			outputSampleBuffer[1][j] = sampleBuffer[0][j];
-			//tmp = sampleBuffer[0][j] << 1;
-			//outputSampleBuffer[1][j] = FRACT_NUM( tmp );
-			
 			outputSampleBuffer[2][j] = sampleBuffer[0][j] + sampleBuffer[1][j];
-			/*
-			tmp = ACCUM_NUM(sampleBuffer[0][j]) + ACCUM_NUM(sampleBuffer[1][j]);
-			tmp = tmp << 1;
-			if(tmp > ACCUM_NUM(0.99999999))
-				tmp = ACCUM_NUM(0.99999999);
-			if(tmp < ACCUM_NUM(-0.99999999))
-				tmp = ACCUM_NUM(-0.99999999);
-			outputSampleBuffer[2][j] = tmp;
-			*/
-			
 			outputSampleBuffer[3][j] = sampleBuffer[1][j];
-			//tmp = sampleBuffer[1][j] << 1;
-			//outputSampleBuffer[3][j] = FRACT_NUM( tmp );
-
 			outputSampleBuffer[4][j] = fir_circular(sampleBuffer[1][j], history2, &p_state2);
-			//tmp = fir_circular(sampleBuffer[1][j], history2, &p_state2);
-			//outputSampleBuffer[4][j] = FRACT_NUM(tmp << 1);
-
 			outputSampleBuffer[5][j] = outputSampleBuffer[4][j] + outputSampleBuffer[0][j];
-            /*	
-			tmp = ACCUM_NUM(outputSampleBuffer[4][j] + outputSampleBuffer[0][j]);
-			tmp = tmp << 1;
-			if(tmp > ACCUM_NUM(0.99999999))
-				tmp = ACCUM_NUM(0.99999999);
-			if(tmp < ACCUM_NUM(-0.99999999))
-				tmp = ACCUM_NUM(-0.99999999);
-			outputSampleBuffer[5][j] = tmp;
-			*/
 
 		}
 	}
@@ -97,10 +66,10 @@ void processing()
             pOutbuf[4][j] = fir_circular(pInbuf[1][j], FIRCoef, history2, Ntap, &p_state2);         //Rs
 			*/
 			
-			outputSampleBuffer[0][j] = FRACT_NUM( fir_circular(sampleBuffer[0][j], history1, &p_state1) );
+			outputSampleBuffer[0][j] = fir_circular(sampleBuffer[0][j], history1, &p_state1);
 			outputSampleBuffer[1][j] = sampleBuffer[0][j];
 			outputSampleBuffer[2][j] = sampleBuffer[1][j];
-			outputSampleBuffer[3][j] = FRACT_NUM( fir_circular(sampleBuffer[1][j], history2, &p_state2) );
+			outputSampleBuffer[3][j] = fir_circular(sampleBuffer[1][j], history2, &p_state2);
 			
 		}
 	}
@@ -130,7 +99,7 @@ DSPint main(int argc, char* argv[])
 	FILE *wav_out=NULL;
 	char WavInputName[256];
 	char WavOutputName[256];
-	//WAV_HEADER inputWAVhdr,outputWAVhdr;	
+	WAV_HEADER inputWAVhdr,outputWAVhdr;	
 	
 	DSPint i, j;
 	

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<settings built="true" last_build_time="1544030899663">
+	<dependencies>
+		<source_file last_build_time="1544030687239" path="src/main.cpp">
+			<dependency>../inc/common.h</dependency>
+			<dependency>C:/CirrusDSP/include/stdlib.h</dependency>
+			<dependency>C:/CirrusDSP/include/string.h</dependency>
+			<dependency>C:/CirrusDSP/include/math.h</dependency>
+			<dependency>C:/CirrusDSP/include/stdio.h</dependency>
+			<dependency>C:/CirrusDSP/include/circbuff.h</dependency>
+			<dependency>../inc/stdfix_emu.h</dependency>
+			<dependency>C:/CirrusDSP/include/stdfix.h</dependency>
+			<dependency>C:/CirrusDSP/include/scaling_coeff.h</dependency>
+			<dependency>C:/CirrusDSP/include/dsplib/wavefile.h</dependency>
+		</source_file>
+		<source_file last_build_time="1544030898119" path="src/common.cpp">
+			<dependency>../inc/common.h</dependency>
+			<dependency>C:/CirrusDSP/include/stdlib.h</dependency>
+			<dependency>C:/CirrusDSP/include/string.h</dependency>
+			<dependency>C:/CirrusDSP/include/math.h</dependency>
+			<dependency>C:/CirrusDSP/include/stdio.h</dependency>
+			<dependency>C:/CirrusDSP/include/circbuff.h</dependency>
+			<dependency>../inc/stdfix_emu.h</dependency>
+			<dependency>C:/CirrusDSP/include/stdfix.h</dependency>
+			<dependency>C:/CirrusDSP/include/scaling_coeff.h</dependency>
+		</source_file>
+	</dependencies>
+</settings>

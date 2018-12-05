@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+<clideViews>
+<clideView viewId="clide.debug.ui.registersView">
+<registerView regViewCoreName="DSP_A">
+<regViewMementoCore scrollPercent="NaN">
+<layoutType horizontal="0" register_details="1"/>
+<expandedPath item_0="DSP_A"/>
+</regViewMementoCore>
+</registerView>
+</clideView>
+</clideViews>
+<perspective id="CLIDE.DebugPerspective"/>
+<workbench_editors>
+<editor file_path="/Model3/.suldproj"/>
+<editor file_path="/Model3/src/main.cpp"/>
+<editor file_path="/Model3/src/common.cpp"/>
+<editor file_path="/Model3/inc/common.h"/>
+<editor file_path="/Model3/crystal32.groovy"/>
+</workbench_editors>
+<views/>
+<watchExpressions/>
+<launcherConfiguration/>
+<projectSettings/>
+</settings>

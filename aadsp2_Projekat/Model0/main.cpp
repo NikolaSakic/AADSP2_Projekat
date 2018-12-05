@@ -10,7 +10,7 @@
 double sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE];
 double outputSampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE];
 
-#define Ntap 31
+#define Ntap 32
 
 double FIRCoef[Ntap] = { 
         -0.00930491020808503140,
@@ -43,7 +43,8 @@ double FIRCoef[Ntap] = {
         -0.00969329473373671360,
         -0.00957002117828420830,
         -0.00944040203390978520,
-        -0.00930491020808503140
+        -0.00930491020808503140,
+		0.0
     };
 
 enum ENABLE_STATE {ON, OFF};

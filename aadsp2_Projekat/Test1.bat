@@ -4,7 +4,7 @@ SET CONFIGURATION=Debug
 
 
 : TO DO: Add additional command line args for your program
-SET ADDITIONAL_ARGS=On -4 3_2_1
+SET ADDITIONAL_ARGS=On -1 3_2_1
 
 SET COMPARE="..//tools//PCMCompare.exe"
 
