@@ -1,0 +1,30 @@
+============= BUILDING STARTED ============
+  Project: Model3
+===========================================
+Linking files...
+C:/CirrusDSP/bin/clink
+ -oD:/RA230-2015/aadsp2/AADSP2_Projekat/aadsp2_Projekat/Model3/output/standalone/Model3.img
+ -fC:/CirrusDSP/crystal32/memory_maps/v00.mem.xml
+ --output_type=RAM
+ --overlay_type=standalone
+ -lC:/CirrusDSP/lib/
+ -lC:/CirrusDSP/lib/dsplib
+ -lC:/CirrusDSP/lib/dsplib/crystal32/
+D:/RA230-2015/aadsp2/AADSP2_Projekat/aadsp2_Projekat/Model3/output/standalone/src/common.O
+D:/RA230-2015/aadsp2/AADSP2_Projekat/aadsp2_Projekat/Model3/output/standalone/src/main.O
+     [exec] Warning #507: Unknown class: Y_OS_CC_GLOBALS
+     [exec]             for the segment: CC_HEAPSTEAL_VALUES
+     [exec]             from the module: C:\CirrusDSP\lib\dsplib\crystal32\cl_heapsteal.O
+     [exec] Error #506: Unresolved external symbol: _coeffs
+     [exec]                         used in module: D:/RA230-2015/aadsp2/AADSP2_Projekat/aadsp2_Projekat/Model3/output/standalone/src/common
+     [exec] Error #506: Unresolved externa
+     [exec] l symbol: _coeffs
+     [exec]                         used in module: D:/RA230-2015/aadsp2/AADSP2_Projekat/aadsp2_Projekat/Model3/output/standalone/src/common
+     [exec] Error #506: Unresolved external symbol: _processing
+     [exec]                         used in module: D:/RA230-2015/aadsp2/AADSP2_Projekat/aadsp2_Projekat/Model3/output/standalone/src/main
+     [exec] 3 error(s) encountered during symbol relocation!
+
+BUILD FAILED
+D:\RA230-2015\aadsp2\AADSP2_Projekat\aadsp2_Projekat\Model3\output\standalone\standalone.build.xml:4: exec returned: 1
+
+Total time: 0 seconds

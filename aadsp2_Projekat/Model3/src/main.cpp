@@ -10,8 +10,7 @@ __memX DSPfract outputSampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE];
 __memX DSPfract __attribute__((__aligned__(n_coeff))) history_global[2][n_coeff];
 unsigned int p_state_global[2];
 
-//ENABLE_STATE enable;
-//OUTPUT_MODE outputMode;
+
 DSPint InputGain;
 
 
@@ -67,12 +66,6 @@ DSPint main(int argc, char* argv[])
 		//-------------------------------------------------
 
 
-		// Initialize echo
-		//-------------------------------------------------
-
-		//-------------------------------------------------
-
-
 		// Processing loop
 		//-------------------------------------------------
 	    {
@@ -93,9 +86,7 @@ DSPint main(int argc, char* argv[])
 					}
 				}
 
-				// Do processing...
-				// Your code here...
-				// Initialize echo
+
 				//-------------------------------------------------
 				processing(sampleBuffer, outputSampleBuffer);
 				//-------------------------------------------------

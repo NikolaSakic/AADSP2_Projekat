@@ -216,7 +216,6 @@ double fir_circular(double input, int ind)
 	{
 		h_ptr = history + state;
 		ret_val += *c_ptr * *h_ptr;
-		//if(++state >= n_coeff)
 
 		unsigned int temp = (state) - n_coeff;
 		if((int)(++state) - (int)n_coeff >= 0)
@@ -242,8 +241,7 @@ double fir_circular(double input, int ind)
 
 void processing(double pInbuf[MAX_NUM_CHANNEL][BLOCK_SIZE], double pOutbuf[MAX_NUM_CHANNEL][BLOCK_SIZE])
 {
-	/* 10^(-4/20) */
-	//double gain = 0.63095735;
+	
 	double gain = pow(10.0, InputGain/20.0);
 
 
@@ -253,14 +251,6 @@ void processing(double pInbuf[MAX_NUM_CHANNEL][BLOCK_SIZE], double pOutbuf[MAX_N
 		{
 			pInbuf[0][j] *= gain;
 			pInbuf[1][j] *= gain;
-			/*
-			pOutbuf[3][j] = fir_circular(pInbuf[0][j], FIRCoef, history1, Ntap, &p_state1);			//Ls
-            pOutbuf[0][j] = pInbuf[0][j];															//L
-            pOutbuf[1][j] = pInbuf[0][j] + pInbuf[1][j];											//C
-            pOutbuf[2][j] = pInbuf[1][j];															//R
-            pOutbuf[4][j] = fir_circular(pInbuf[1][j], FIRCoef, history2, Ntap, &p_state2);			//Rs
-            pOutbuf[5][j] = pOutbuf[4][j] + pOutbuf[3][j];											//LFE
-			*/
 			
 			pOutbuf[0][j] = fir_circular(pInbuf[0][j], 0);	
 			pOutbuf[1][j] = pInbuf[0][j];
@@ -287,12 +277,6 @@ void processing(double pInbuf[MAX_NUM_CHANNEL][BLOCK_SIZE], double pOutbuf[MAX_N
 		{
 			pInbuf[0][j] *= gain;
 			pInbuf[1][j] *= gain;
-		    /*
-			pOutbuf[3][j] = fir_circular(pInbuf[0][j], FIRCoef, history1, Ntap, &p_state1);         //Ls
-            pOutbuf[0][j] = pInbuf[0][j];                                                           //L
-            pOutbuf[2][j] = pInbuf[1][j];                                                           //R
-            pOutbuf[4][j] = fir_circular(pInbuf[1][j], FIRCoef, history2, Ntap, &p_state2);         //Rs
-			*/
 			
 			pOutbuf[0][j] = fir_circular(pInbuf[0][j], 0);
 			pOutbuf[1][j] = pInbuf[0][j];
@@ -307,10 +291,6 @@ void processing(double pInbuf[MAX_NUM_CHANNEL][BLOCK_SIZE], double pOutbuf[MAX_N
 		{
 			pInbuf[0][j] *= gain;
 			pInbuf[1][j] *= gain;
-			/*
-			pOutbuf[0][j] = pInbuf[0][j];        //L
-            pOutbuf[2][j] = pInbuf[1][j];        //R
-			*/
 			
 			pOutbuf[1][j] = pInbuf[0][j];
 			pOutbuf[2][j] = pInbuf[1][j];

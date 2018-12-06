@@ -197,7 +197,7 @@ DSPfract fir_circular(DSPfract input, int ind)
 
 	// store input at the beginning of the delay line 
     
-	//history[state] = input;
+	
 	//*******************
 	h_ptr += state;
 	*h_ptr = input;
@@ -217,9 +217,6 @@ DSPfract fir_circular(DSPfract input, int ind)
 		h_ptr = history + state;
 		ret_val += *c_ptr * *h_ptr;
 
-		//if(++state >= n_coeff)
-
-		//unsigned int temp = (state) - n_coeff;
 		if((int)(++state) - (int)n_coeff >= 0)
 		{
 			state = 0;
@@ -229,13 +226,6 @@ DSPfract fir_circular(DSPfract input, int ind)
 
     *p_state = state;               // return new state to caller 
 	
-	//ret_val = ret_val << 1;
-	/*
-	if(ret_val > FRACT_NUM(0.99999999))
-		ret_val = FRACT_NUM(0.99999999);
-	if(ret_val < FRACT_NUM(-0.99999999))
-		ret_val = FRACT_NUM(-0.99999999);
-	*/
 
     return ret_val;
 	
@@ -247,10 +237,9 @@ DSPfract fir_circular(DSPfract input, int ind)
 
 void processing(DSPfract sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE], DSPfract outputSampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE])
 {
-	/* 10^(-4/20) */
-	//DSPfract gain = 0.63095735;
+	
 	DSPfract gain = FRACT_NUM(pow(10.0, InputGain/20.0));
-	//gain = gain >> 1;
+	
 
 	
 	if(enable == ON && outputMode == MOD3_2_1)
@@ -259,14 +248,7 @@ void processing(DSPfract sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE], DSPfract out
 		{
 			sampleBuffer[0][j] = sampleBuffer[0][j] * gain;
 			sampleBuffer[1][j] = sampleBuffer[1][j] * gain;
-			/*
-			pOutbuf[3][j] = fir_circular(pInbuf[0][j], FIRCoef, history1, Ntap, &p_state1);			//Ls
-            pOutbuf[0][j] = pInbuf[0][j];															//L
-            pOutbuf[1][j] = pInbuf[0][j] + pInbuf[1][j];											//C
-            pOutbuf[2][j] = pInbuf[1][j];															//R
-            pOutbuf[4][j] = fir_circular(pInbuf[1][j], FIRCoef, history2, Ntap, &p_state2);			//Rs
-            pOutbuf[5][j] = pOutbuf[4][j] + pOutbuf[3][j];											//LFE
-			*/
+			
 			
 			outputSampleBuffer[0][j] = fir_circular(sampleBuffer[0][j], 0);			
 			outputSampleBuffer[1][j] = sampleBuffer[0][j];
@@ -283,12 +265,6 @@ void processing(DSPfract sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE], DSPfract out
 		{
 			sampleBuffer[0][j] = sampleBuffer[0][j] * gain;
 			sampleBuffer[1][j] = sampleBuffer[1][j] * gain;
-		    /*
-			pOutbuf[3][j] = fir_circular(pInbuf[0][j], FIRCoef, history1, Ntap, &p_state1);         //Ls
-            pOutbuf[0][j] = pInbuf[0][j];                                                           //L
-            pOutbuf[2][j] = pInbuf[1][j];                                                           //R
-            pOutbuf[4][j] = fir_circular(pInbuf[1][j], FIRCoef, history2, Ntap, &p_state2);         //Rs
-			*/
 			
 			outputSampleBuffer[0][j] = fir_circular(sampleBuffer[0][j], 0);
 			outputSampleBuffer[1][j] = sampleBuffer[0][j];
@@ -303,10 +279,6 @@ void processing(DSPfract sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE], DSPfract out
 		{
 			sampleBuffer[0][j] = sampleBuffer[1][j] * gain;
 			sampleBuffer[1][j] = sampleBuffer[1][j] * gain;
-			/*
-			pOutbuf[0][j] = pInbuf[0][j];        //L
-            pOutbuf[2][j] = pInbuf[1][j];        //R
-			*/
 			
 			outputSampleBuffer[1][j] = sampleBuffer[0][j];
 			outputSampleBuffer[2][j] = sampleBuffer[1][j];

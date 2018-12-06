@@ -157,14 +157,12 @@ DSPfract fir_circular(DSPfract input, int ind)
 
 	// store input at the beginning of the delay line 
     
-	//history[state] = input;
-	//*******************
 	h_ptr += state;
 	*h_ptr = input;
-	//*******************
 
 	if ((int)(++state) - (int)n_coeff >= 0)
-	{         // incr state and check for wrap 
+	{
+		// incr state and check for wrap
 		state = 0;
 	}
 
@@ -184,52 +182,12 @@ DSPfract fir_circular(DSPfract input, int ind)
 		}
 
 		c_ptr--;
+
 	}
-
-
-
-	/*
-	for (c_ptr = coeffs + n_coeff - 1; c_ptr >= coeffs; c_ptr--)
-	{
-		h_ptr = history + state;
-		ret_val += *c_ptr * *h_ptr;
-
-		//if(++state >= n_coeff)
-
-		//unsigned int temp = (state) - n_coeff;
-		if((int)(++state) - (int)n_coeff >= 0)
-		{
-			state = 0;
-		}
-	}
-	*/
-
-	/*
-	c_ptr = coeffs + n_coeff - 1;
-	for(i = 0; i < n_coeff; i++)
-	{
-		h_ptr = history + state;
-		ret_val += *c_ptr * *h_ptr;
-
-		if((int)(++state) - (int)n_coeff >= 0)
-		{
-			state = 0;
-		}
-
-		c_ptr = CIRC_INC(c_ptr, MOD_32 - 1);
-	}
-	*/
 
 
     *p_state = state;               // return new state to caller 
 	
-	//ret_val = ret_val << 1;
-	/*
-	if(ret_val > FRACT_NUM(0.99999999))
-		ret_val = FRACT_NUM(0.99999999);
-	if(ret_val < FRACT_NUM(-0.99999999))
-		ret_val = FRACT_NUM(-0.99999999);
-	*/
 
     return ret_val;
 	
@@ -242,75 +200,27 @@ DSPfract fir_circular(DSPfract input, int ind)
 void processing(__memY DSPfract sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE], __memX DSPfract outputSampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE])
 {
 
-	/* 10^(-4/20) */
+
 	DSPfract gain = 0.63095735;
-	//DSPfract gain = FRACT_NUM(pow(10.0, InputGain/20.0));
+
 
 	int i, j;
 
-	//if(enable == ON && outputMode == MOD3_2_1)
-	//{
-		for(j=0; j<BLOCK_SIZE; j++)
-		{
-			sampleBuffer[0][j] = sampleBuffer[0][j] * gain;
-			sampleBuffer[1][j] = sampleBuffer[1][j] * gain;
 
-			//pOutbuf[3][j] = fir_circular(pInbuf[0][j], FIRCoef, history1, Ntap, &p_state1);			//Ls
-            //pOutbuf[0][j] = pInbuf[0][j];															//L
-            //pOutbuf[1][j] = pInbuf[0][j] + pInbuf[1][j];											//C
-            //pOutbuf[2][j] = pInbuf[1][j];															//R
-            //pOutbuf[4][j] = fir_circular(pInbuf[1][j], FIRCoef, history2, Ntap, &p_state2);			//Rs
-            //pOutbuf[5][j] = pOutbuf[4][j] + pOutbuf[3][j];											//LFE
-
-
-			outputSampleBuffer[0][j] = fir_circular(sampleBuffer[0][j], 0);
-			outputSampleBuffer[1][j] = sampleBuffer[0][j];
-			outputSampleBuffer[2][j] = sampleBuffer[0][j] + sampleBuffer[1][j];
-			outputSampleBuffer[3][j] = sampleBuffer[1][j];
-			outputSampleBuffer[4][j] = fir_circular(sampleBuffer[1][j], 1);
-			outputSampleBuffer[5][j] = outputSampleBuffer[4][j] + outputSampleBuffer[0][j];
-
-		}
-	//}
-	/*
-	if(enable == ON && outputMode == MOD2_2_0)
+	for(j=0; j<BLOCK_SIZE; j++)
 	{
-		for(j=0; j<BLOCK_SIZE; j++)
-		{
-			sampleBuffer[0][j] = sampleBuffer[0][j] * gain;
-			sampleBuffer[1][j] = sampleBuffer[1][j] * gain;
+		sampleBuffer[0][j] = sampleBuffer[0][j] * gain;
+		sampleBuffer[1][j] = sampleBuffer[1][j] * gain;
 
-			//pOutbuf[3][j] = fir_circular(pInbuf[0][j], FIRCoef, history1, Ntap, &p_state1);         //Ls
-            //pOutbuf[0][j] = pInbuf[0][j];                                                           //L
-            //pOutbuf[2][j] = pInbuf[1][j];                                                           //R
-            //pOutbuf[4][j] = fir_circular(pInbuf[1][j], FIRCoef, history2, Ntap, &p_state2);         //Rs
-
-
-			outputSampleBuffer[0][j] = fir_circular(sampleBuffer[0][j], 0);
-			outputSampleBuffer[1][j] = sampleBuffer[0][j];
-			outputSampleBuffer[2][j] = sampleBuffer[1][j];
-			outputSampleBuffer[3][j] = fir_circular(sampleBuffer[1][j], 1);
-
-		}
-	}
-	if(enable == OFF || outputMode == MOD2_0_0)
-	{
-		for(j=0; j<BLOCK_SIZE; j++)
-		{
-			sampleBuffer[0][j] = sampleBuffer[1][j] * gain;
-			sampleBuffer[1][j] = sampleBuffer[1][j] * gain;
-
-			//pOutbuf[0][j] = pInbuf[0][j];        //L
-            //pOutbuf[2][j] = pInbuf[1][j];        //R
-
-
-			outputSampleBuffer[1][j] = sampleBuffer[0][j];
-			outputSampleBuffer[2][j] = sampleBuffer[1][j];
-
-		}
+		outputSampleBuffer[0][j] = fir_circular(sampleBuffer[0][j], 0);
+		outputSampleBuffer[1][j] = sampleBuffer[0][j];
+		outputSampleBuffer[2][j] = sampleBuffer[0][j] + sampleBuffer[1][j];
+		outputSampleBuffer[3][j] = sampleBuffer[1][j];
+		outputSampleBuffer[4][j] = fir_circular(sampleBuffer[1][j], 1);
+		outputSampleBuffer[5][j] = outputSampleBuffer[4][j] + outputSampleBuffer[0][j];
 
 	}
-	*/
+
 
 }
 

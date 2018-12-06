@@ -1,0 +1,86 @@
+.extern _history_global
+	.extern _p_state_global
+    .extern _coeffs
+    .extern _n_coeff
+	#.public _fir_circular
+
+    .code ovly
+
+_fir_circular:
+	 
+	i1 = xmem[_history_global]        #history
+	i2 = xmem[_p_state_global]        #p_state
+	
+	i4 = i1                           #h_ptr
+	i5 = ymem[_coeffs]                #c_ptr
+	
+	x0 = xmem[i2]                     #state
+	
+	
+	i4 += x0
+	xmem[i4] = a0
+	
+	x0 += 1                    # LN: 232 |
+    b0 = x0 - xmem[_n_coeff]   # LN: 232 |
+    if(b0 < 0) jmp (if1_end)    # LN: 232 |
+if1_start:
+    x0 = 0;        # LN: 234 |
+
+if1_end:
+
+	a0 = (0)
+	i5 = ymem[_coeffs] + n_coeff
+	nop
+	i5 = i5 - 1
+	
+	do (0x80), do_end
+do_start:	
+	i4 = i1 + x0
+	a0 += ymem[i5] * xmem[i4]
+		
+	x0 += 1
+    b0 = x0 - xmem[_n_coeff]
+    if(b0 < 0) jmp (else_1)    
+if2_start:
+    x0 = 0;       
+if2_end:
+	
+do_end:	
+	
+	ret
+	
+	
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   

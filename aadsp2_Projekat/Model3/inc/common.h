@@ -28,7 +28,7 @@ enum ENABLE_STATE {ON, OFF};
 enum OUTPUT_MODE {MOD2_0_0, MOD2_2_0, MOD3_2_1};
 
 
-//int stringToInt(char *s);
+
 DSPfract fir_circular(DSPfract input,  int ind);
 void processing(__memY DSPfract sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE],__memX DSPfract outputSampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE]);
 

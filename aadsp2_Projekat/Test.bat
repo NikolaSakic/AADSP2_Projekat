@@ -1,8 +1,8 @@
 : Delete log files first.
 cd OutCmp
-del output1_Model0_vs_Model1.txt
-del whiteNoise_Model1_vs_Model2.txt
-del whiteNoise_Model2_vs_Model3.txt
+del Model01.txt
+del Model12.txt
+del Model23.txt
 
 
 

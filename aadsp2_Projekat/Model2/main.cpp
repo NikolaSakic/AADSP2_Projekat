@@ -30,10 +30,7 @@ DSPint main(int argc, char* argv[])
 	p_state_global[1] = 0;
 
 	// Init channel buffers
-	/*
-	for(int i=0; i<MAX_NUM_CHANNEL; i++)
-		memset(&sampleBuffer[i],0,BLOCK_SIZE);
-	*/
+
 	for(i=0; i<MAX_NUM_CHANNEL; i++)
 	{
 		for(j=0; j < BLOCK_SIZE; j++)
@@ -58,7 +55,7 @@ DSPint main(int argc, char* argv[])
 	// Set up output WAV header
 	//-------------------------------------------------	
 	outputWAVhdr = inputWAVhdr;
-	//outputWAVhdr.fmt.NumChannels = inputWAVhdr.fmt.NumChannels; 
+	
 	// change number of channels
 
 	if(!strcmp(argv[3], "On"))
@@ -137,11 +134,10 @@ DSPint main(int argc, char* argv[])
 					fread(&sample, BytesPerSample, 1, wav_in);
 					sample = sample << (32 - inputWAVhdr.fmt.BitsPerSample); // force signextend
 					sampleBuffer[k][j] = sample / SAMPLE_SCALE;				// scale sample to 1.0/-1.0 range
-					//sampleBuffer[k][j] = FRACT_NUM(sampleBuffer[k][j] >> 4);
+					
 				}
 			}
 
-			//processing();
 
 			processing(sampleBuffer, outputSampleBuffer);
 
@@ -149,7 +145,7 @@ DSPint main(int argc, char* argv[])
 			{
 				for(DSPint k=0; k<outputWAVhdr.fmt.NumChannels; k++)
 				{	
-					//sample = outputSampleBuffer[k][j] * SAMPLE_SCALE ;	// crude, non-rounding 			
+							
 					sample = outputSampleBuffer[k][j].toLong();
 					sample = sample >> (32 - inputWAVhdr.fmt.BitsPerSample);
 					fwrite(&sample, outputWAVhdr.fmt.BitsPerSample/8, 1, wav_out);		
