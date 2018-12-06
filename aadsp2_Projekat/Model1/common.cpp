@@ -1,6 +1,10 @@
 #include "common.h"
 
-extern double history_global[2][Ntap];
+extern ENABLE_STATE enable;
+extern OUTPUT_MODE outputMode;
+extern int InputGain;
+
+extern double history_global[2][n_coeff];
 extern unsigned int p_state_global[2]; 
 
 double coeffs[n_coeff] = { 

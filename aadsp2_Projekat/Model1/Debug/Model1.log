@@ -1,34 +1,25 @@
-﻿Build started 5.12.2018 16:53:24.
-     1>Project "D:\RA230-2015\aadsp2\glavni_workspace\aadsp2_Projekat\Model1\Model1.vcxproj" on node 2 (build target(s)).
+﻿Build started 6.12.2018 13:40:35.
+     1>Project "D:\RA230-2015\aadsp2\AADSP2_Projekat\aadsp2_Projekat\Model1\Model1.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Creating "Debug\Model1.unsuccessfulbuild" because "AlwaysCreate" was specified.
+         Touching "Debug\Model1.unsuccessfulbuild".
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt common.cpp main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt common.cpp
          common.cpp
-     1>d:\ra230-2015\aadsp2\glavni_workspace\aadsp2_projekat\model1\common.cpp(51): warning C4101: 'i' : unreferenced local variable
-     1>d:\ra230-2015\aadsp2\glavni_workspace\aadsp2_projekat\model1\common.cpp(78): warning C4101: 'i' : unreferenced local variable
-         Generating Code...
-         Compiling...
-         main.cpp
-     1>d:\ra230-2015\aadsp2\glavni_workspace\aadsp2_projekat\model1\main.cpp(119): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
-     1>d:\ra230-2015\aadsp2\glavni_workspace\aadsp2_projekat\model1\main.cpp(121): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\string.h(105) : see declaration of 'strcpy'
-     1>d:\ra230-2015\aadsp2\glavni_workspace\aadsp2_projekat\model1\main.cpp(223): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
-         Generating Code...
+     1>d:\ra230-2015\aadsp2\aadsp2_projekat\aadsp2_projekat\model1\common.cpp(154): warning C4101: 'i' : unreferenced local variable
+     1>d:\ra230-2015\aadsp2\aadsp2_projekat\aadsp2_projekat\model1\common.cpp(181): warning C4101: 'i' : unreferenced local variable
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\RA230-2015\aadsp2\glavni_workspace\aadsp2_Projekat\Debug\Model1.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Model1.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\RA230-2015\aadsp2\glavni_workspace\aadsp2_Projekat\Debug\Model1.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\RA230-2015\aadsp2\glavni_workspace\aadsp2_Projekat\Debug\Model1.lib" /MACHINE:X86 Debug\common.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\RA230-2015\aadsp2\AADSP2_Projekat\aadsp2_Projekat\Debug\Model1.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\Model1.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\RA230-2015\aadsp2\AADSP2_Projekat\aadsp2_Projekat\Debug\Model1.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\RA230-2015\aadsp2\AADSP2_Projekat\aadsp2_Projekat\Debug\Model1.lib" /MACHINE:X86 Debug\common.obj
          Debug\main.obj
          Debug\WAVheader.obj
-         LINK : D:\RA230-2015\aadsp2\glavni_workspace\aadsp2_Projekat\Debug\Model1.exe not found or not built by the last incremental link; performing full link
-         Model1.vcxproj -> D:\RA230-2015\aadsp2\glavni_workspace\aadsp2_Projekat\Debug\Model1.exe
+         LINK : D:\RA230-2015\aadsp2\AADSP2_Projekat\aadsp2_Projekat\Debug\Model1.exe not found or not built by the last incremental link; performing full link
+         Model1.vcxproj -> D:\RA230-2015\aadsp2\AADSP2_Projekat\aadsp2_Projekat\Debug\Model1.exe
        Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\RA230-2015\aadsp2\glavni_workspace\aadsp2_Projekat\Debug\Model1.exe;#1" /manifest Debug\Model1.exe.intermediate.manifest
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\RA230-2015\aadsp2\AADSP2_Projekat\aadsp2_Projekat\Debug\Model1.exe;#1" /manifest Debug\Model1.exe.intermediate.manifest
        FinalizeBuildStatus:
          Deleting file "Debug\Model1.unsuccessfulbuild".
          Touching "Debug\Model1.lastbuildstate".
-     1>Done Building Project "D:\RA230-2015\aadsp2\glavni_workspace\aadsp2_Projekat\Model1\Model1.vcxproj" (build target(s)).
+     1>Done Building Project "D:\RA230-2015\aadsp2\AADSP2_Projekat\aadsp2_Projekat\Model1\Model1.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.76
+Time Elapsed 00:00:00.67

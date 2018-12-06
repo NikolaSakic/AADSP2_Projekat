@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<project basedir="D:/RA230-2015/aadsp2/glavni_workspace/aadsp2_Projekat/Model3" name="Model3">
+<project basedir="D:/RA230-2015/aadsp2/AADSP2_Projekat/aadsp2_Projekat/Model3" name="Model3">
 	<target description="Linking files..." name="clink">
 		<exec executable="C:/CirrusDSP/bin/clink" failonerror="true">
-			<arg value="-oD:/RA230-2015/aadsp2/glavni_workspace/aadsp2_Projekat/Model3/output/standalone/Model3.img"/>
+			<arg value="-oD:/RA230-2015/aadsp2/AADSP2_Projekat/aadsp2_Projekat/Model3/output/standalone/Model3.img"/>
 			<arg value="-fC:/CirrusDSP/crystal32/memory_maps/v00.mem.xml"/>
-			<arg value="D:/RA230-2015/aadsp2/glavni_workspace/aadsp2_Projekat/Model3/output/standalone/src/common.O"/>
-			<arg value="D:/RA230-2015/aadsp2/glavni_workspace/aadsp2_Projekat/Model3/output/standalone/src/main.O"/>
+			<arg value="D:/RA230-2015/aadsp2/AADSP2_Projekat/aadsp2_Projekat/Model3/output/standalone/src/common.O"/>
+			<arg value="D:/RA230-2015/aadsp2/AADSP2_Projekat/aadsp2_Projekat/Model3/output/standalone/src/main.O"/>
 			<arg value="--output_type=RAM"/>
 			<arg value="--overlay_type=standalone"/>
 			<arg value="-lC:/CirrusDSP/lib/"/>
@@ -16,8 +16,8 @@
 	<target depends="clink" description="Creating .uld file..." name="lnkuld">
 		<exec executable="C:/CirrusDSP/bin/lnkuld" failonerror="true">
 			<arg value="-ja"/>
-			<arg value="D:/RA230-2015/aadsp2/glavni_workspace/aadsp2_Projekat/Model3/output/standalone/Model3.img"/>
-			<arg value="D:/RA230-2015/aadsp2/glavni_workspace/aadsp2_Projekat/Model3/output/standalone/Model3.uld"/>
+			<arg value="D:/RA230-2015/aadsp2/AADSP2_Projekat/aadsp2_Projekat/Model3/output/standalone/Model3.img"/>
+			<arg value="D:/RA230-2015/aadsp2/AADSP2_Projekat/aadsp2_Projekat/Model3/output/standalone/Model3.uld"/>
 		</exec>
 	</target>
 </project>

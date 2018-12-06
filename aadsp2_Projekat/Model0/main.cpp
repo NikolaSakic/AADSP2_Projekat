@@ -1,4 +1,3 @@
-
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
@@ -7,15 +6,17 @@
 #define BLOCK_SIZE 16
 #define MAX_NUM_CHANNEL 8
 
+#define n_coeff 128
+
 double sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE];
 double outputSampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE];
 
-double history_global[2][Ntap];
+double history_global[2][n_coeff];
 unsigned int p_state_global[2]; 
 
-#define n_coeff 128
 
-double coeffs[Ntap] = { 
+
+double coeffs[n_coeff] = { 
         -0.00207513724778647140,
         -0.00217637838099327610,
         -0.00228078465861456620,
@@ -318,10 +319,10 @@ int main(int argc, char* argv[])
 	char WavOutputName[256];
 	//WAV_HEADER inputWAVhdr,outputWAVhdr;	
 	
-	for(int i=0; i < Ntap; i++){ history1[0][i] = 0;}
-	for(int i=0; i < Ntap; i++){ history2[1][i] = 0;}
-	p_state[0] = 0;
-	p_state[1] = 0;
+	for(int i=0; i < n_coeff; i++){ history_global[0][i] = 0;}
+	for(int i=0; i < n_coeff; i++){ history_global[1][i] = 0;}
+	p_state_global[0] = 0;
+	p_state_global[1] = 0;
 
 	// Init channel buffers
 	for(int i=0; i<MAX_NUM_CHANNEL; i++)

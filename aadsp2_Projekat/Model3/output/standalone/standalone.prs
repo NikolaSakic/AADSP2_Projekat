@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<settings built="true" last_build_time="1544030899663">
+<settings built="true" last_build_time="1544105696442">
 	<dependencies>
-		<source_file last_build_time="1544030687239" path="src/main.cpp">
+		<source_file last_build_time="1544105694882" path="src/main.cpp">
 			<dependency>../inc/common.h</dependency>
 			<dependency>C:/CirrusDSP/include/stdlib.h</dependency>
 			<dependency>C:/CirrusDSP/include/string.h</dependency>
@@ -13,7 +13,7 @@
 			<dependency>C:/CirrusDSP/include/scaling_coeff.h</dependency>
 			<dependency>C:/CirrusDSP/include/dsplib/wavefile.h</dependency>
 		</source_file>
-		<source_file last_build_time="1544030898119" path="src/common.cpp">
+		<source_file last_build_time="1544105430620" path="src/common.cpp">
 			<dependency>../inc/common.h</dependency>
 			<dependency>C:/CirrusDSP/include/stdlib.h</dependency>
 			<dependency>C:/CirrusDSP/include/string.h</dependency>

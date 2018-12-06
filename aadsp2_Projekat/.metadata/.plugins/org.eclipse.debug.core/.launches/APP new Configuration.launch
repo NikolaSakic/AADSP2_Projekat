@@ -2,5 +2,5 @@
 <launchConfiguration type="pda.launchType">
 <stringAttribute key="ATTR_SELECTED_DEBUG_INFO_TYPE" value="STANDALONE_DEBUG_INFO_TYPE"/>
 <stringAttribute key="ATTR_SELECTED_TARGET_TYPE" value="TARGET_TYPE_SINGLE_CORE"/>
-<stringAttribute key="ATTR_STANDALONE_PROJECTS" value="D:/RA230-2015/aadsp2/glavni_workspace/aadsp2_Projekat/Model3/output/standalone/Model3.uld,"/>
+<stringAttribute key="ATTR_STANDALONE_PROJECTS" value="D:/RA230-2015/aadsp2/AADSP2_Projekat/aadsp2_Projekat/Model3/output/standalone/Model3.uld,"/>
 </launchConfiguration>

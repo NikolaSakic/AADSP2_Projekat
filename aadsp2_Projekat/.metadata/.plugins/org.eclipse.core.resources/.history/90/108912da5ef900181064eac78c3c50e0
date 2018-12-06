@@ -1,0 +1,364 @@
+#include "common.h"
+
+extern DSPfract history_global[2][n_coeff];
+extern unsigned int p_state_global[2];
+
+DSPfract __attribute__((__aligned__(n_coeff))) coeffs[n_coeff] = {
+        -0.00207513724778647140,
+        -0.00217637838099327610,
+        -0.00228078465861456620,
+        -0.00238837128101942760,
+        -0.00249914882226101890,
+        -0.00261312296509078010,
+        -0.00273029423146596430,
+        -0.00285065770884099280,
+        -0.00297420277258046750,
+        -0.00310091280484182810,
+        -0.00323076491031552320,
+        -0.00336372962922661160,
+        -0.00349977064803202750,
+        -0.00363884450827982880,
+        -0.00378090031411331810,
+        -0.00392587943895232080,
+        -0.00407371523188311550,
+        -0.00422433272435441920,
+        -0.00437764833776308620,
+        -0.00453356959259002080,
+        -0.00469199481973614760,
+        -0.00485281287476664520,
+        -0.00501590285578391690,
+        -0.00518113382569273740,
+        -0.00534836453964335040,
+        -0.00551744317847007330,
+        -0.00568820708897802530,
+        -0.00586048253195674270,
+        -0.00603408443881176420,
+        -0.00620881617778555260,
+        -0.00638446933069648090,
+        -0.00656082348121125960,
+        -0.00673764601566220930,
+        -0.00691469193745850380,
+        -0.00709170369616382060,
+        -0.00726841103233338580,
+        -0.00744453083923316780,
+        -0.00761976704258055140,
+        -0.00779381049947177730,
+        -0.00796633891767073270,
+        -0.00813701679646679220,
+        -0.00830549539030860790,
+        -0.00847141269644654560,
+        -0.00863439346782395550,
+        -0.00879404925246547730,
+        -0.00894997846062089120,
+        -0.00910176646093054790,
+        -0.00924898570687218880,
+        -0.00939119589475915020,
+        -0.00952794415454925880,
+        -0.00965876527472230360,
+        -0.00978318196247196340,
+        -0.00990070514044585210,
+        -0.01001083428125532300,
+        -0.01011305778094857300,
+        -0.01020685337262810900,
+        -0.01029168858135474600,
+        -0.01036702122146096300,
+        -0.01043229993734798000,
+        -0.01048696478881336800,
+        -0.01053044788190094300,
+        -0.01056217404622181200,
+        -0.01058156155964070000,
+        0.98936363835392083000,
+        -0.01058156155964070000,
+        -0.01056217404622181200,
+        -0.01053044788190094300,
+        -0.01048696478881336800,
+        -0.01043229993734798000,
+        -0.01036702122146096300,
+        -0.01029168858135474600,
+        -0.01020685337262810900,
+        -0.01011305778094857300,
+        -0.01001083428125532300,
+        -0.00990070514044585210,
+        -0.00978318196247196340,
+        -0.00965876527472230360,
+        -0.00952794415454925880,
+        -0.00939119589475915020,
+        -0.00924898570687218880,
+        -0.00910176646093054790,
+        -0.00894997846062089120,
+        -0.00879404925246547730,
+        -0.00863439346782395550,
+        -0.00847141269644654560,
+        -0.00830549539030860790,
+        -0.00813701679646679220,
+        -0.00796633891767073270,
+        -0.00779381049947177730,
+        -0.00761976704258055140,
+        -0.00744453083923316780,
+        -0.00726841103233338580,
+        -0.00709170369616382060,
+        -0.00691469193745850380,
+        -0.00673764601566220930,
+        -0.00656082348121125960,
+        -0.00638446933069648090,
+        -0.00620881617778555260,
+        -0.00603408443881176420,
+        -0.00586048253195674270,
+        -0.00568820708897802530,
+        -0.00551744317847007330,
+        -0.00534836453964335040,
+        -0.00518113382569273740,
+        -0.00501590285578391690,
+        -0.00485281287476664520,
+        -0.00469199481973614760,
+        -0.00453356959259002080,
+        -0.00437764833776308620,
+        -0.00422433272435441920,
+        -0.00407371523188311550,
+        -0.00392587943895232080,
+        -0.00378090031411331810,
+        -0.00363884450827982880,
+        -0.00349977064803202750,
+        -0.00336372962922661160,
+        -0.00323076491031552320,
+        -0.00310091280484182810,
+        -0.00297420277258046750,
+        -0.00285065770884099280,
+        -0.00273029423146596430,
+        -0.00261312296509078010,
+        -0.00249914882226101890,
+        -0.00238837128101942760,
+        -0.00228078465861456620,
+        -0.00217637838099327610,
+        -0.00207513724778647140,
+        -0.00197704169248794470
+    };
+
+
+
+/*
+__memX unsigned int p_state1 = 0;
+__memX unsigned int p_state2 = 0;
+
+__memY DSPfract __attribute__((__aligned__(n_coeff))) history1[n_coeff];
+__memY DSPfract __attribute__((__aligned__(n_coeff))) history2[n_coeff];
+*/
+
+
+
+
+
+/*
+int stringToInt(char *s)
+{ 
+	char *s_ptr = s;
+	//int i;
+	int adder = 1;
+
+    int retVal = 0;
+    int strLen = 0;
+	char *k = s;
+	while(*s_ptr != '\0')
+	{
+		strLen++;
+		s_ptr++;
+	}
+
+
+	
+	for(s_ptr = s + strLen - 1; s_ptr >= s + 1; s_ptr--)
+	{
+		retVal += (*s_ptr - 48) * adder;
+		adder *= 10;
+	}
+
+
+    if(*s == '-')
+    {
+        retVal *= -1;
+    }
+    else
+    {
+        retVal += (*s - 48) * adder;
+    }
+
+    return retVal;
+
+}
+*/
+
+DSPfract fir_circular(DSPfract input, int ind)
+{
+	int i;
+
+	DSPfract* history = history_global[ind];
+	unsigned int* p_state = &p_state_global[ind];
+
+	unsigned int state;
+	DSPfract ret_val;
+
+
+	DSPfract* h_ptr = history;
+	DSPfract* c_ptr = coeffs;
+
+    state = *p_state;               // copy the filter's state to a local 
+
+
+	// store input at the beginning of the delay line 
+    
+	//history[state] = input;
+	//*******************
+	h_ptr += state;
+	*h_ptr = input;
+	//*******************
+
+	if ((int)(++state) - (int)n_coeff >= 0)
+	{         // incr state and check for wrap 
+		state = 0;
+	}
+
+	// calc FIR and shift data 
+	ret_val = 0.0;
+	
+	/*
+	c_ptr = coeffs + n_coeff - 1;
+	for (i = 0; i < n_coeff; i++)
+	{
+		h_ptr = history + state;
+		ret_val += *c_ptr * *h_ptr;
+
+		if((int)(++state) - (int)n_coeff >= 0)
+		{
+			state = 0;
+		}
+
+		c_ptr--;
+	}
+	*/
+
+
+	for (c_ptr = coeffs + n_coeff - 1; c_ptr >= coeffs; c_ptr--)
+	{
+		h_ptr = history + state;
+		ret_val += *c_ptr * *h_ptr;
+
+		//if(++state >= n_coeff)
+
+		//unsigned int temp = (state) - n_coeff;
+		if((int)(++state) - (int)n_coeff >= 0)
+		{
+			state = 0;
+		}
+	}
+
+
+	/*
+	c_ptr = coeffs + n_coeff - 1;
+	for(i = 0; i < n_coeff; i++)
+	{
+		h_ptr = history + state;
+		ret_val += *c_ptr * *h_ptr;
+
+		if((int)(++state) - (int)n_coeff >= 0)
+		{
+			state = 0;
+		}
+
+		c_ptr = CIRC_INC(c_ptr, MOD_32 - 1);
+	}
+	*/
+
+
+    *p_state = state;               // return new state to caller 
+	
+	//ret_val = ret_val << 1;
+	/*
+	if(ret_val > FRACT_NUM(0.99999999))
+		ret_val = FRACT_NUM(0.99999999);
+	if(ret_val < FRACT_NUM(-0.99999999))
+		ret_val = FRACT_NUM(-0.99999999);
+	*/
+
+    return ret_val;
+	
+
+
+}
+
+
+
+void processing(DSPfract sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE], DSPfract outputSampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE])
+{
+
+	/* 10^(-4/20) */
+	DSPfract gain = 0.63095735;
+	//DSPfract gain = FRACT_NUM(pow(10.0, InputGain/20.0));
+
+	int i, j;
+
+	//if(enable == ON && outputMode == MOD3_2_1)
+	//{
+		for(j=0; j<BLOCK_SIZE; j++)
+		{
+			sampleBuffer[0][j] = sampleBuffer[0][j] * gain;
+			sampleBuffer[1][j] = sampleBuffer[1][j] * gain;
+
+			//pOutbuf[3][j] = fir_circular(pInbuf[0][j], FIRCoef, history1, Ntap, &p_state1);			//Ls
+            //pOutbuf[0][j] = pInbuf[0][j];															//L
+            //pOutbuf[1][j] = pInbuf[0][j] + pInbuf[1][j];											//C
+            //pOutbuf[2][j] = pInbuf[1][j];															//R
+            //pOutbuf[4][j] = fir_circular(pInbuf[1][j], FIRCoef, history2, Ntap, &p_state2);			//Rs
+            //pOutbuf[5][j] = pOutbuf[4][j] + pOutbuf[3][j];											//LFE
+
+
+			outputSampleBuffer[0][j] = fir_circular(sampleBuffer[0][j], 0);
+			outputSampleBuffer[1][j] = sampleBuffer[0][j];
+			outputSampleBuffer[2][j] = sampleBuffer[0][j] + sampleBuffer[1][j];
+			outputSampleBuffer[3][j] = sampleBuffer[1][j];
+			outputSampleBuffer[4][j] = fir_circular(sampleBuffer[1][j], 1);
+			outputSampleBuffer[5][j] = outputSampleBuffer[4][j] + outputSampleBuffer[0][j];
+
+		}
+	//}
+	/*
+	if(enable == ON && outputMode == MOD2_2_0)
+	{
+		for(j=0; j<BLOCK_SIZE; j++)
+		{
+			sampleBuffer[0][j] = sampleBuffer[0][j] * gain;
+			sampleBuffer[1][j] = sampleBuffer[1][j] * gain;
+
+			//pOutbuf[3][j] = fir_circular(pInbuf[0][j], FIRCoef, history1, Ntap, &p_state1);         //Ls
+            //pOutbuf[0][j] = pInbuf[0][j];                                                           //L
+            //pOutbuf[2][j] = pInbuf[1][j];                                                           //R
+            //pOutbuf[4][j] = fir_circular(pInbuf[1][j], FIRCoef, history2, Ntap, &p_state2);         //Rs
+
+
+			outputSampleBuffer[0][j] = fir_circular(sampleBuffer[0][j], 0);
+			outputSampleBuffer[1][j] = sampleBuffer[0][j];
+			outputSampleBuffer[2][j] = sampleBuffer[1][j];
+			outputSampleBuffer[3][j] = fir_circular(sampleBuffer[1][j], 1);
+
+		}
+	}
+	if(enable == OFF || outputMode == MOD2_0_0)
+	{
+		for(j=0; j<BLOCK_SIZE; j++)
+		{
+			sampleBuffer[0][j] = sampleBuffer[1][j] * gain;
+			sampleBuffer[1][j] = sampleBuffer[1][j] * gain;
+
+			//pOutbuf[0][j] = pInbuf[0][j];        //L
+            //pOutbuf[2][j] = pInbuf[1][j];        //R
+
+
+			outputSampleBuffer[1][j] = sampleBuffer[0][j];
+			outputSampleBuffer[2][j] = sampleBuffer[1][j];
+
+		}
+
+	}
+	*/
+
+}
+

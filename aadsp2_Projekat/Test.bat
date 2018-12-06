@@ -19,8 +19,9 @@ cd Debug
 cd ..
 
 : Generate new logs
-"..//tools//PCMCompare.exe" OutStreams//out_MyWhiteNoise_0.wav OutStreams//out_MyWhiteNoise_1.wav 2> OutCmp//whiteNoise_Model0_vs_Model1.txt
-"..//tools//PCMCompare.exe" OutStreams//out_MyWhiteNoise_1.wav OutStreams//out_MyWhiteNoise_2.wav 2> OutCmp//whiteNoise_Model1_vs_Model2.txt
-"..//tools//PCMCompare.exe" OutStreams//out_MyWhiteNoise_2.wav OutStreams//MyWhiteNoise.wav 2> OutCmp//whiteNoise_Model2_vs_Model3.txt
+"..//tools//PCMCompare.exe" OutStreams//out_MyWhiteNoise_0.wav OutStreams//out_MyWhiteNoise_1.wav 2> OutCmp//Model01.txt
+"..//tools//PCMCompare.exe" OutStreams//out_MyWhiteNoise_1.wav OutStreams//out_MyWhiteNoise_2.wav 2> OutCmp//model12.txt
+"..//tools//PCMCompare.exe" OutStreams//out_MyWhiteNoise_2.wav OutStreams//MyWhiteNoise.wav 2> OutCmp//model23.txt
+
 
 

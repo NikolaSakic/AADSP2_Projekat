@@ -5,7 +5,7 @@
 DSPfract sampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE];
 DSPfract outputSampleBuffer[MAX_NUM_CHANNEL][BLOCK_SIZE];
 
-DSPfract history_global[2][Ntap];
+DSPfract history_global[2][n_coeff];
 unsigned int p_state_global[2]; 
 
 ENABLE_STATE enable;
@@ -24,10 +24,10 @@ DSPint main(int argc, char* argv[])
 	
 	DSPint i, j;
 	
-	for(int i=0; i < Ntap; i++){ history1[0][i] = FRACT_NUM(0.0);}
-	for(int i=0; i < Ntap; i++){ history2[1][i] = FRACT_NUM(0.0);}
-	p_state[0] = 0;
-	p_state[1] = 0;
+	for(int i=0; i < n_coeff; i++){ history_global[0][i] = FRACT_NUM(0.0);}
+	for(int i=0; i < n_coeff; i++){ history_global[1][i] = FRACT_NUM(0.0);}
+	p_state_global[0] = 0;
+	p_state_global[1] = 0;
 
 	// Init channel buffers
 	/*

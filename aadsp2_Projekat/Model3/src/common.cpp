@@ -1,9 +1,9 @@
 #include "common.h"
 
-extern DSPfract history_global[2][Ntap];
+extern __memX DSPfract history_global[2][n_coeff];
 extern unsigned int p_state_global[2];
 
-__memX DSPfract __attribute__((__aligned__(n_coeff))) coeffs[n_coeff] = {
+__memY DSPfract __attribute__((__aligned__(n_coeff))) coeffs[n_coeff] = {
         -0.00207513724778647140,
         -0.00217637838099327610,
         -0.00228078465861456620,
@@ -136,70 +136,21 @@ __memX DSPfract __attribute__((__aligned__(n_coeff))) coeffs[n_coeff] = {
 
 
 
-/*
-__memX unsigned int p_state1 = 0;
-__memX unsigned int p_state2 = 0;
 
-__memY DSPfract __attribute__((__aligned__(n_coeff))) history1[n_coeff];
-__memY DSPfract __attribute__((__aligned__(n_coeff))) history2[n_coeff];
-*/
-
-
-
-
-
-/*
-int stringToInt(char *s)
-{ 
-	char *s_ptr = s;
-	//int i;
-	int adder = 1;
-
-    int retVal = 0;
-    int strLen = 0;
-	char *k = s;
-	while(*s_ptr != '\0')
-	{
-		strLen++;
-		s_ptr++;
-	}
-
-
-	
-	for(s_ptr = s + strLen - 1; s_ptr >= s + 1; s_ptr--)
-	{
-		retVal += (*s_ptr - 48) * adder;
-		adder *= 10;
-	}
-
-
-    if(*s == '-')
-    {
-        retVal *= -1;
-    }
-    else
-    {
-        retVal += (*s - 48) * adder;
-    }
-
-    return retVal;
-
-}
-*/
 
 DSPfract fir_circular(DSPfract input, int ind)
 {
 	int i;
 
-	DSPfract* history = history_global[ind];
+	__memX DSPfract* history = history_global[ind];
 	unsigned int* p_state = &p_state_global[ind];
 
 	unsigned int state;
 	DSPfract ret_val;
 
 
-	DSPfract* h_ptr = history;
-	DSPfract* c_ptr = coeffs;
+	__memX DSPfract* h_ptr = history;
+	__memY DSPfract* c_ptr = coeffs;
 
     state = *p_state;               // copy the filter's state to a local 
 
@@ -221,6 +172,23 @@ DSPfract fir_circular(DSPfract input, int ind)
 	ret_val = 0.0;
 	
 
+	c_ptr = coeffs + n_coeff - 1;
+	for (i = 0; i < n_coeff; i++)
+	{
+		h_ptr = history + state;
+		ret_val += *c_ptr * *h_ptr;
+
+		if((int)(++state) - (int)n_coeff >= 0)
+		{
+			state = 0;
+		}
+
+		c_ptr--;
+	}
+
+
+
+	/*
 	for (c_ptr = coeffs + n_coeff - 1; c_ptr >= coeffs; c_ptr--)
 	{
 		h_ptr = history + state;
@@ -234,6 +202,7 @@ DSPfract fir_circular(DSPfract input, int ind)
 			state = 0;
 		}
 	}
+	*/
 
 	/*
 	c_ptr = coeffs + n_coeff - 1;
